@@ -1,6 +1,6 @@
+from urllib.parse import quote_plus
 import pandas as pd
 from sqlalchemy import create_engine
-from urllib.parse import quote_plus
 
 # Define your PostgreSQL connection parameters
 DATABASE_TYPE = 'postgresql'
@@ -13,10 +13,12 @@ PORT = 5432  # Default PostgreSQL port
 DATABASE = 'testdb'  # Replace with your PostgreSQL database name
 
 # Create a SQLAlchemy engine
-engine = create_engine(f'{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{ENDPOINT}:{PORT}/{DATABASE}')
+#engine = create_engine(f'{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{ENDPOINT}:{PORT}/{DATABASE}')
+engine = create_engine('{0}+{1}://{2}:{3}@{4}:{5}/{6}'.format(
+    DATABASE_TYPE, DBAPI, USER, PASSWORD, ENDPOINT, PORT, DATABASE))
 
 # Read the CSV file into a DataFrame
-csv_file_path = r'C:\Users\cheru\Desktop\APIDEMOPROJECT\src\customers.csv'  # Replace with the path to your CSV file
+csv_file_path = r'C:\Users\nimba\Downloads\customers.csv'  # Replace with the path to your CSV file
 df = pd.read_csv(csv_file_path)
 
 # Load the DataFrame into PostgreSQL
