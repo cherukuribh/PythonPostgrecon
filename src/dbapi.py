@@ -1,10 +1,7 @@
-import pandas as pd
-from sqlalchemy import create_engine
 from urllib.parse import quote_plus
-
-from flask import Flask, jsonify
 import pandas as pd
 from sqlalchemy import create_engine
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 # Define your PostgreSQL connection parameters
@@ -23,22 +20,16 @@ engine = create_engine(f'{DATABASE_TYPE}+{DBAPI}://{USER}:{PASSWORD}@{ENDPOINT}:
 # Specify the table name you want to read from
 table_name = 'customer_bharathi'  # Replace with your table name
 
-# Read data from the PostgreSQL table into a DataFrame
-df = pd.read_sql_table(table_name, engine)
-
-# Print the DataFrame to verify
-print(df.head())
-
 @app.route('/data', methods=['GET'])
 def get_data():
     # Read data from the PostgreSQL table into a DataFrame
     df = pd.read_sql_table(table_name, engine)
-    
+
     # Convert the DataFrame to a dictionary and then to JSON
     data = df.to_dict(orient='records')
-    
+
     # Return the data as JSON
     return jsonify(data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5001, debug=True)
